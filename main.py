@@ -3,6 +3,8 @@ import cards
 import copy
 import utils
 import itertools
+import compare_functions as cf
+
 
 def compare_hands(hand_cards, public_cards):
     """
@@ -28,7 +30,7 @@ def compare_hands(hand_cards, public_cards):
     count_list = [0, 0, 0] # number of equal, number of hand1 win, number of hand2 win
 
     for public_cards_combination in all_public_cards_combinations:
-        count_list[utils.compare_two_hand(hand_cards[0], hand_cards[1], public_cards_combination)] += 1
+        count_list[cf.compare_two_hand(hand_cards[0], hand_cards[1], public_cards_combination)] += 1
 
     total_count = count_list[0] + count_list[1] + count_list[2]
     print("total_count is: {}".format(total_count), flush=True)
