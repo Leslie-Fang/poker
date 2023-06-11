@@ -39,9 +39,10 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     * 1 is hand1 is larger
     * 2 is hand2 is larger
     """
+
+    # Compare straight_flush firstly
     is_hand1_straight_flush = is_straight_flush(hand_card1, public_cards)
     is_hand2_straight_flush = is_straight_flush(hand_card2, public_cards)
-
     if is_hand1_straight_flush is not None and is_hand2_straight_flush is None:
         return 1
     if is_hand1_straight_flush is None and is_hand2_straight_flush is not None:
@@ -53,7 +54,23 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
             return 1
         if is_hand1_straight_flush[0].number < is_hand2_straight_flush[0].number:
             return 2
-    # all is not straight_flush
+
+    # all of 2 hands are not straight_flush
+    is_hand1_four_kind = is_four_of_a_kind(hand_card1, public_cards)
+    is_hand2_four_kind = is_four_of_a_kind(hand_card2, public_cards)
+    if is_hand1_four_kind is not None and is_hand2_four_kind is None:
+        return 1
+    if is_hand1_four_kind is None and is_hand2_four_kind is not None:
+        return 2
+    if is_hand1_four_kind is not None and is_hand2_four_kind is not None:
+        if is_hand1_four_kind == is_hand2_four_kind:
+            return 0
+        if is_hand1_four_kind > is_hand2_four_kind:
+            return 1
+        if is_hand1_four_kind < is_hand2_four_kind:
+            return 2
+    # all of 2 hands are not four_kind
+
     return 0
 
 
@@ -100,12 +117,9 @@ def _is_four_of_a_kind(cards):
 
 def is_four_of_a_kind(hand_card, public_cards):
     """
-    **TODO** support case when not enough cards input
     return None if not 4 of kind
-    elif only 4 cards
-        return high card of -1
     else
-        return the high card
+        return the same number of 4 kind
     """
     assert public_cards.__len__() == 5
     full_cards_to_check = copy.deepcopy(list(public_cards))
@@ -114,11 +128,22 @@ def is_four_of_a_kind(hand_card, public_cards):
     # Sort of decrease number
     full_cards_to_check.sort(key = lambda card:card.number, reverse=True)
 
-    if len(full_cards_to_check) < 4:
+    if len(full_cards_to_check) < 7:
         return None
 
-    high_card = None
-    all_combinations = itertools.combinations(full_cards_to_check, 4)
+    all_combinations = itertools.combinations(full_cards_to_check, 5)
+    four_kinds_number = None
+    for cards in all_combinations:
+        all_sub_combinations = itertools.combinations(cards, 4)
+        for all_sub_combination in all_sub_combinations:
+            if _is_four_of_a_kind(all_sub_combination):
+                if four_kinds_number is None:
+                    four_kinds_number = all_sub_combination[0].number
+                elif all_sub_combination[0].number > four_kinds_number:
+                    four_kinds_number = all_sub_combination[0].number
+
+    return four_kinds_number
+
 
 
 
