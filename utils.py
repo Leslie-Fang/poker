@@ -149,16 +149,20 @@ def is_four_of_a_kind(hand_card, public_cards):
 
     all_combinations = itertools.combinations(full_cards_to_check, 5)
     four_kinds_number = None
+    four_kinds_card = None
     for cards in all_combinations:
         all_sub_combinations = itertools.combinations(cards, 4)
         for all_sub_combination in all_sub_combinations:
             if _is_four_of_a_kind(all_sub_combination):
                 if four_kinds_number is None:
                     four_kinds_number = all_sub_combination[0].number
+                    four_kinds_card = all_sub_combination
                 elif all_sub_combination[0].number > four_kinds_number:
                     four_kinds_number = all_sub_combination[0].number
+                    four_kinds_card = all_sub_combination
+                elif all_sub_combination[0].number == four_kinds_number:
 
-    return four_kinds_number
+    return four_kinds_card
 
 def _is_three_of_a_kind(cards):
     assert cards.__len__() == 3
