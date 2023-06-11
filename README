@@ -4,3 +4,6 @@
 ```
 python -m pytest test.py
 ```
+
+## TODO
+* fix bug （葫芦）：2 手牌，可能出现3张一样的情况，这个时候需要比2张的大小

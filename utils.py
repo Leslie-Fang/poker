@@ -40,7 +40,7 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     * 2 is hand2 is larger
     """
 
-    # Compare straight_flush firstly
+    # Step1: Compare straight_flush firstly
     is_hand1_straight_flush = is_straight_flush(hand_card1, public_cards)
     is_hand2_straight_flush = is_straight_flush(hand_card2, public_cards)
     if is_hand1_straight_flush is not None and is_hand2_straight_flush is None:
@@ -54,9 +54,9 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
             return 1
         if is_hand1_straight_flush[0].number < is_hand2_straight_flush[0].number:
             return 2
-
     # all of 2 hands are not straight_flush
-    # compare 4 kind
+
+    # Step2: compare 4 kind
     is_hand1_four_kind = is_four_of_a_kind(hand_card1, public_cards)
     is_hand2_four_kind = is_four_of_a_kind(hand_card2, public_cards)
     if is_hand1_four_kind is not None and is_hand2_four_kind is None:
@@ -71,7 +71,8 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
         if is_hand1_four_kind < is_hand2_four_kind:
             return 2
     # all of 2 hands are not four_kind
-    # compare full house
+
+    # Step3: compare full house
     is_hand1_full_house = is_full_house(hand_card1, public_cards)
     is_hand2_full_house = is_full_house(hand_card2, public_cards)
     if is_hand1_full_house is not None and is_hand2_full_house is None:
@@ -88,7 +89,6 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     # all of 2 hands are not full house
 
     return 0
-
 
 
 def is_straight_flush(hand_card, public_cards):
@@ -133,9 +133,9 @@ def _is_four_of_a_kind(cards):
 
 def is_four_of_a_kind(hand_card, public_cards):
     """
+    检查4条
     return None if not 4 of kind
-    else
-        return the same number of 4 kind
+    else return the same number of 4 kind
     """
     assert public_cards.__len__() == 5
     full_cards_to_check = copy.deepcopy(list(public_cards))
@@ -160,8 +160,6 @@ def is_four_of_a_kind(hand_card, public_cards):
 
     return four_kinds_number
 
-
-
 def _is_three_of_a_kind(cards):
     assert cards.__len__() == 3
     number = cards[0].number
@@ -180,9 +178,9 @@ def _is_two_of_a_kind(cards):
 
 def is_full_house(hand_card, public_cards):
     """
+    检查葫芦
     return None if not full house
-    else
-        return the same number of 3 kind
+    else return the same number of 3 kind
     """
     assert public_cards.__len__() == 5
     full_cards_to_check = copy.deepcopy(list(public_cards))
@@ -226,6 +224,11 @@ def _is_flush(cards):
     return True
 
 def is_flush(hand_card, public_cards):
+    """
+    检查同花
+    return None if not flush
+    else return the largest flush card
+    """
     full_cards_to_check = copy.deepcopy(list(public_cards))
     full_cards_to_check.append(hand_card.card1)
     full_cards_to_check.append(hand_card.card2)
