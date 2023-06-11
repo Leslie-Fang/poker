@@ -42,12 +42,6 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     is_hand1_straight_flush = is_straight_flush(hand_card1, public_cards)
     is_hand2_straight_flush = is_straight_flush(hand_card2, public_cards)
 
-
-    if is_hand1_straight_flush is not None or  is_hand2_straight_flush is not None:
-        import pdb;pdb.set_trace()
-
-
-
     if is_hand1_straight_flush is not None and is_hand2_straight_flush is None:
         return 1
     if is_hand1_straight_flush is None and is_hand2_straight_flush is not None:
