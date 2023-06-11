@@ -56,6 +56,7 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
             return 2
 
     # all of 2 hands are not straight_flush
+    # compare 4 kind
     is_hand1_four_kind = is_four_of_a_kind(hand_card1, public_cards)
     is_hand2_four_kind = is_four_of_a_kind(hand_card2, public_cards)
     if is_hand1_four_kind is not None and is_hand2_four_kind is None:
@@ -70,6 +71,21 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
         if is_hand1_four_kind < is_hand2_four_kind:
             return 2
     # all of 2 hands are not four_kind
+    # compare full house
+    is_hand1_full_house = is_full_house(hand_card1, public_cards)
+    is_hand2_full_house = is_full_house(hand_card2, public_cards)
+    if is_hand1_full_house is not None and is_hand2_full_house is None:
+        return 1
+    if is_hand1_full_house is None and is_hand2_full_house is not None:
+        return 2
+    if is_hand1_full_house is not None and is_hand2_full_house is not None:
+        if is_hand1_full_house == is_hand2_full_house:
+            return 0
+        if is_hand1_full_house > is_hand2_full_house:
+            return 1
+        if is_hand1_full_house < is_hand2_full_house:
+            return 2
+    # all of 2 hands are not full house
 
     return 0
 
@@ -146,9 +162,59 @@ def is_four_of_a_kind(hand_card, public_cards):
 
 
 
+def _is_three_of_a_kind(cards):
+    assert cards.__len__() == 3
+    number = cards[0].number
+    for card in cards:
+        if card.number != number:
+            return False
+    return True
 
-def is_full_house():
-    pass
+def _is_two_of_a_kind(cards):
+    assert cards.__len__() == 2
+    number = cards[0].number
+    for card in cards:
+        if card.number != number:
+            return False
+    return True
+
+def is_full_house(hand_card, public_cards):
+    """
+    return None if not full house
+    else
+        return the same number of 3 kind
+    """
+    assert public_cards.__len__() == 5
+    full_cards_to_check = copy.deepcopy(list(public_cards))
+    full_cards_to_check.append(hand_card.card1)
+    full_cards_to_check.append(hand_card.card2)
+    # Sort of decrease number
+    full_cards_to_check.sort(key = lambda card:card.number, reverse=True)
+
+    if len(full_cards_to_check) < 7:
+        return None
+    all_combinations = itertools.combinations(full_cards_to_check, 5)
+    three_kinds_number = None
+    for cards in all_combinations:
+        all_sub_combinations = itertools.combinations(cards, 3)
+        for sub_combination in all_sub_combinations:
+            if _is_three_of_a_kind(sub_combination):
+                test_cards = copy.deepcopy(list(cards))
+                # for card in test_cards:
+                cards_to_remove = []
+                for card_to_check in test_cards:
+                    for three_kinds_card in sub_combination:
+                        if three_kinds_card.number == card_to_check.number and three_kinds_card.color == card_to_check.color:
+                            cards_to_remove.append(card_to_check)
+                for card in cards_to_remove:
+                    test_cards.remove(card)
+                assert len(test_cards) == 2
+                if _is_two_of_a_kind(test_cards):
+                    if three_kinds_number is None:
+                        three_kinds_number = sub_combination[0].number
+                    elif sub_combination[0].number > three_kinds_number:
+                        three_kinds_number = sub_combination[0].number
+    return three_kinds_number
 
 
 def _is_flush(cards):

@@ -61,7 +61,23 @@ class TestFunctions:
         public_cards = [public_card1, public_card2, public_card3, public_card4, public_card5]
         assert utils.is_four_of_a_kind(hand_card, public_cards) is None
 
+    def test_full_house(self):
+        hand_card = cards.HandCard(cards.Card(10, cards.CardColor.diamond), cards.Card(10, cards.CardColor.club))
+        public_card1 = cards.Card(10, cards.CardColor.heart)
+        public_card2 = cards.Card(3, cards.CardColor.spade)
+        public_card3 = cards.Card(3, cards.CardColor.club)
+        public_card4 = cards.Card(8, cards.CardColor.heart)
+        public_card5 = cards.Card(9, cards.CardColor.heart)
+        public_cards = [public_card1, public_card2, public_card3, public_card4, public_card5]
+        assert utils.is_full_house(hand_card, public_cards) is not None
 
+        public_card1 = cards.Card(3, cards.CardColor.heart)
+        public_card2 = cards.Card(4, cards.CardColor.heart)
+        public_card3 = cards.Card(7, cards.CardColor.heart)
+        public_card4 = cards.Card(8, cards.CardColor.heart)
+        public_card5 = cards.Card(9, cards.CardColor.heart)
+        public_cards = [public_card1, public_card2, public_card3, public_card4, public_card5]
+        assert utils.is_full_house(hand_card, public_cards) is None
 
 
 
