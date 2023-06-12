@@ -34,6 +34,7 @@ def compare_hands(hand_cards, public_cards):
         total_candidate += 1
 
     print("Total candidates is: {}".format(total_candidate), flush=True)
+
     current_progress = 0
     all_public_cards_combinations = itertools.combinations(remain_cards, remain_cards_needed)
     for public_cards_combination in all_public_cards_combinations:
@@ -41,13 +42,21 @@ def compare_hands(hand_cards, public_cards):
 
         current_progress += 1
         if current_progress % 10000 == 0:
-            print("progress count is: {}; percentage is: {}%".format(current_progress, current_progress/total_candidate*100), flush=True)
+            print("progress count is: {}; percentage is: {:.2}%".format(current_progress, current_progress/total_candidate*100), flush=True)
+            current_total_count = count_list[0] + count_list[1] + count_list[2]
+            print("current_total_count is: {}".format(current_total_count), flush=True)
+            print("current hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[1] * 100 / current_total_count),
+                  flush=True)
+            print("current hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[2] * 100 / current_total_count),
+                  flush=True)
+            print("current hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[0] * 100 / current_total_count),
+                  flush=True)
 
     total_count = count_list[0] + count_list[1] + count_list[2]
     print("total_count is: {}".format(total_count), flush=True)
-    print("hand1 win count: {} percentage is: {}".format(count_list[1], count_list[1] / total_count), flush=True)
-    print("hand2 win count: {} percentage is: {}".format(count_list[2], count_list[2] / total_count), flush=True)
-    print("hand1 and hand2 equal count: {} is: {}".format(count_list[0], count_list[0] / total_count), flush=True)
+    print("hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[1] * 100 / total_count), flush=True)
+    print("hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[2] * 100 / total_count), flush=True)
+    print("hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[0] * 100 / total_count), flush=True)
 
 
 if __name__ == "__main__":

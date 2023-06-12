@@ -5,5 +5,18 @@
 python -m pytest test.py
 ```
 
-## TODO
-* write 2 pairs ut
+## Result
+### TT vs A2s
+* TT win:
+* A2s win:
+* Equal:
+
+### TT vs AKs
+* TT win:
+* AKs win:
+* Equal:
+
+### TT vs AKo
+* TT win:
+* AKo win:
+* Equal:
