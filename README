@@ -19,22 +19,22 @@ python -m pytest test.py
 * Equal: 0.38%
 
 ### TT vs A2o (default use Parallel Calculation)
-* TT win:
-* A2o win:
-* Equal:
+* TT win: 71.34%
+* A2o win: 28.27%
+* Equal: 0.39%
 
-### TT vs AKs (default use Parallel Calculation)
-* TT win:
-* AKs win:
-* Equal:
+### TT vs AKs
+* TT win: 54.11%
+* AKs win: 45.49%
+* Equal: 0.4%
 
 ### TT vs AKo
-* TT win:
-* AKo win:
-* Equal:
+* TT win: 56.35%
+* AKo win: 43.24%
+* Equal: 0.41%
 
 ### TT vs AQo
-* TT win:
+* TT win:2
 * AQo win:
 * Equal:
 
@@ -46,4 +46,9 @@ python -m pytest test.py
 ### AQo vs AKo
 * AQo win:
 * AKo win:
+* Equal:
+
+### JJ vs KK
+* JJ win:
+* KK win:
 * Equal:
