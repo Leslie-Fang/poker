@@ -483,6 +483,58 @@ class TestSerialParallel():
         assert serial_count_list[1] == parallel_count_list[1]
         assert serial_count_list[2] == parallel_count_list[2]
 
+    def test_serial_parallel_flop(self):
+        hand_card1 = cards.HandCard(cards.Card(6, cards.CardColor.diamond), cards.Card(2, cards.CardColor.club))
+        hand_card2 = cards.HandCard(cards.Card(3, cards.CardColor.heart), cards.Card(7, cards.CardColor.spade))
+        hand_card = [hand_card1, hand_card2]
+
+        public_card1 = cards.Card(10, cards.CardColor.heart)
+        public_card2 = cards.Card(6, cards.CardColor.spade)
+        public_card3 = cards.Card(4, cards.CardColor.club)
+        public_cards = [public_card1, public_card2, public_card3]
+
+
+        serial_count_list = compare_hands(hand_card, public_cards, use_parallel=False)
+        parallel_count_list = compare_hands(hand_card, public_cards, use_parallel=True)
+        assert serial_count_list[0] == parallel_count_list[0]
+        assert serial_count_list[1] == parallel_count_list[1]
+        assert serial_count_list[2] == parallel_count_list[2]
+
+    def test_serial_parallel_turn(self):
+        hand_card1 = cards.HandCard(cards.Card(6, cards.CardColor.diamond), cards.Card(2, cards.CardColor.club))
+        hand_card2 = cards.HandCard(cards.Card(6, cards.CardColor.heart), cards.Card(2, cards.CardColor.spade))
+        hand_card = [hand_card1, hand_card2]
+
+        public_card1 = cards.Card(10, cards.CardColor.heart)
+        public_card2 = cards.Card(6, cards.CardColor.spade)
+        public_card3 = cards.Card(4, cards.CardColor.club)
+        public_card4 = cards.Card(7, cards.CardColor.club)
+        public_cards = [public_card1, public_card2, public_card3, public_card4]
+
+        serial_count_list = compare_hands(hand_card, public_cards, use_parallel=False)
+        parallel_count_list = compare_hands(hand_card, public_cards, use_parallel=True)
+        assert serial_count_list[0] == parallel_count_list[0]
+        assert serial_count_list[1] == parallel_count_list[1]
+        assert serial_count_list[2] == parallel_count_list[2]
+
+    def test_serial_parallel_river(self):
+        hand_card1 = cards.HandCard(cards.Card(6, cards.CardColor.diamond), cards.Card(2, cards.CardColor.club))
+        hand_card2 = cards.HandCard(cards.Card(7, cards.CardColor.heart), cards.Card(7, cards.CardColor.spade))
+        hand_card = [hand_card1, hand_card2]
+
+        public_card1 = cards.Card(10, cards.CardColor.heart)
+        public_card2 = cards.Card(3, cards.CardColor.spade)
+        public_card3 = cards.Card(4, cards.CardColor.club)
+        public_card4 = cards.Card(8, cards.CardColor.heart)
+        public_card5 = cards.Card(9, cards.CardColor.heart)
+        public_cards = [public_card1, public_card2, public_card3, public_card4, public_card5]
+
+        serial_count_list = compare_hands(hand_card, public_cards, use_parallel=False)
+        parallel_count_list = compare_hands(hand_card, public_cards, use_parallel=True)
+        assert serial_count_list[0] == parallel_count_list[0]
+        assert serial_count_list[1] == parallel_count_list[1]
+        assert serial_count_list[2] == parallel_count_list[2]
+
 class TestGeneralCase():
     def test_flop(self):
         hand_card1 = cards.HandCard(cards.Card(6, cards.CardColor.diamond), cards.Card(2, cards.CardColor.club))
