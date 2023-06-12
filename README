@@ -9,9 +9,9 @@ python -m pytest test.py
 
 ### TT vs A2s
 #### Serial Calculation
-* TT win:
-* A2s win:
-* Equal:
+* TT win: 67.87%
+* A2s win: 31.75%
+* Equal: 0.38%
 
 #### Parallel Calculation
 * TT win: 67.87%
@@ -34,21 +34,34 @@ python -m pytest test.py
 * Equal: 0.41%
 
 ### TT vs AQo
-* TT win:2
-* AQo win:
-* Equal:
+* TT win: 56.40%
+* AQo win: 43.20%
+* Equal: 0.41%
 
 ### 88 vs AQo
-* 88 win:
-* AKs win:
-* Equal:
+* 88 win: 54.81%
+* AQo win: 44.80%
+* Equal: 0.39%
+
+### 88 vs KK
+* 88 win: 18.29%
+* KK win: 81.25%
+* Equal: 0.46%
+
+### QQ vs KK
+* QQ win: 17.10%
+* KK win: 82.35%
+* Equal: 0.55%
 
 ### AQo vs AKo
-* AQo win:
-* AKo win:
-* Equal:
+* AQo win: 22.96%
+* AKo win: 72.27%
+* Equal: 4.78%
 
-### JJ vs KK
-* JJ win:
-* KK win:
-* Equal:
+### 78s vs K5s
+public card: 6s9sKh
+转牌：两头摇 对顶对
+* AQo win: 31.52%
+* AKo win: 68.48%
+* Equal: 0.0%
+
