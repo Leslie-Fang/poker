@@ -4,32 +4,36 @@ import copy
 import utils
 import itertools
 import compare_functions as cf
-from multiprocessing import Pool, Lock
+from multiprocessing import Pool, Manager, Lock
+import multiprocessing
 
 use_parallel = True
 count_list = [0, 0, 0]  # number of equal, number of hand1 win, number of hand2 win
-count_manager = Lock()
+count_manager = multiprocessing.Lock()
 
-def _compare_f(_hand_cards1, _hand_cards2, _public_cards_combination):
+def _compare_f(_hand_cards1, _hand_cards2, _public_cards_combination, _count_manager):
     global count_list, count_manager
     res = cf.compare_two_hand(_hand_cards1, _hand_cards2, _public_cards_combination)
     # print("finnish execution round in inner_function", flush=True)
-    # try:
-    count_manager.acquire(block=True)
-    count_list[res] += 1
-    _current_total_count = count_list[0] + count_list[1] + count_list[2]
-    if _current_total_count % 10000 == 0:
+    try:
+        _count_manager.acquire(block=True)
+        count_list[res] += 1
+        _current_total_count = count_list[0] + count_list[1] + count_list[2]
         print("current_total_count is: {}".format(_current_total_count), flush=True)
-        print("current hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[
-            1] * 100 / _current_total_count),
-              flush=True)
-        print("current hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[
-            2] * 100 / _current_total_count),
-              flush=True)
-        print("current hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[
-            0] * 100 / _current_total_count),
-              flush=True)
-    count_manager.release()
+        if _current_total_count % 10000 == 0:
+            print("current_total_count is: {}".format(_current_total_count), flush=True)
+            print("current hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[
+                1] * 100 / _current_total_count),
+                  flush=True)
+            print("current hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[
+                2] * 100 / _current_total_count),
+                  flush=True)
+            print("current hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[
+                0] * 100 / _current_total_count),
+                  flush=True)
+    finally:
+        _count_manager.release()
+
     return
 
 def compare_hands(hand_cards, public_cards):
@@ -70,8 +74,11 @@ def compare_hands(hand_cards, public_cards):
         number_of_process = 4
         pool = Pool(processes=number_of_process)
         print("use multi processes", flush=True)
+
+        l = multiprocessing.Manager().Lock()
+
         for public_cards_combination in all_public_cards_combinations:
-            pool.apply_async(_compare_f, (hand_cards[0], hand_cards[1], public_cards_combination))
+            pool.apply_async(_compare_f, (hand_cards[0], hand_cards[1], public_cards_combination, l))
         pool.close()
         print("finish submission of all tasks", flush=True)
         pool.join()
