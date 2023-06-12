@@ -11,30 +11,38 @@ use_parallel = True
 count_list = [0, 0, 0]  # number of equal, number of hand1 win, number of hand2 win
 count_manager = multiprocessing.Lock()
 
-def _compare_f(_hand_cards1, _hand_cards2, _public_cards_combination, _count_manager):
-    global count_list, count_manager
-    res = cf.compare_two_hand(_hand_cards1, _hand_cards2, _public_cards_combination)
-    # print("finnish execution round in inner_function", flush=True)
-    try:
-        _count_manager.acquire(block=True)
-        count_list[res] += 1
-        _current_total_count = count_list[0] + count_list[1] + count_list[2]
-        print("current_total_count is: {}".format(_current_total_count), flush=True)
-        if _current_total_count % 10000 == 0:
-            print("current_total_count is: {}".format(_current_total_count), flush=True)
-            print("current hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[
-                1] * 100 / _current_total_count),
-                  flush=True)
-            print("current hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[
-                2] * 100 / _current_total_count),
-                  flush=True)
-            print("current hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[
-                0] * 100 / _current_total_count),
-                  flush=True)
-    finally:
-        _count_manager.release()
 
-    return
+rough_count = 0
+
+def _compare_f(_hand_cards1, _hand_cards2, _public_cards_combination):
+    # global count_list, count_manager
+    # print("---calculation", flush=True)
+    global rough_count
+    rough_count += 1
+    if rough_count % 10000 == 0:
+        print("rough_count is: {}".format(rough_count), flush=True)
+    return cf.compare_two_hand(_hand_cards1, _hand_cards2, _public_cards_combination)
+    # print("finnish execution round in inner_function", flush=True)
+    # try:
+    #     _count_manager.acquire(block=True)
+    #     count_list[res] += 1
+    #     _current_total_count = count_list[0] + count_list[1] + count_list[2]
+    #     print("current_total_count is: {}".format(_current_total_count), flush=True)
+    #     if _current_total_count % 10000 == 0:
+    #         print("current_total_count is: {}".format(_current_total_count), flush=True)
+    #         print("current hand1 win count: {} percentage is: {:.2f}%".format(count_list[1], count_list[
+    #             1] * 100 / _current_total_count),
+    #               flush=True)
+    #         print("current hand2 win count: {} percentage is: {:.2f}%".format(count_list[2], count_list[
+    #             2] * 100 / _current_total_count),
+    #               flush=True)
+    #         print("current hand1 and hand2 equal count: {} is: {:.2f}%".format(count_list[0], count_list[
+    #             0] * 100 / _current_total_count),
+    #               flush=True)
+    # finally:
+    #     _count_manager.release()
+    #
+    # return
 
 def compare_hands(hand_cards, public_cards):
     """
@@ -75,13 +83,18 @@ def compare_hands(hand_cards, public_cards):
         pool = Pool(processes=number_of_process)
         print("use multi processes", flush=True)
 
-        l = multiprocessing.Manager().Lock()
+        # l = multiprocessing.Manager().Lock()
+
+        future_results = []
 
         for public_cards_combination in all_public_cards_combinations:
-            pool.apply_async(_compare_f, (hand_cards[0], hand_cards[1], public_cards_combination, l))
+            future_results.append(pool.apply_async(_compare_f, (hand_cards[0], hand_cards[1], public_cards_combination)))
         pool.close()
         print("finish submission of all tasks", flush=True)
         pool.join()
+        print("finish calculation of all tasks", flush=True)
+        for future_result in future_results:
+            count_list[future_result.get()] += 1
 
     else:
         current_progress = 0

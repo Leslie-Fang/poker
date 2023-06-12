@@ -7,6 +7,13 @@ python -m pytest test.py
 
 ## Result
 ### TT vs A2s
+#### Serial Calculation
+
+* TT win:
+* A2s win:
+* Equal:
+
+#### Parallel Calculation
 * TT win:
 * A2s win:
 * Equal:
