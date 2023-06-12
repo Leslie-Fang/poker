@@ -29,6 +29,12 @@ def compare_hands(hand_cards, public_cards):
     all_public_cards_combinations = itertools.combinations(remain_cards, remain_cards_needed)
     count_list = [0, 0, 0] # number of equal, number of hand1 win, number of hand2 win
 
+
+
+    print("len(all_public_cards_combinations) is: {}".fotmat(len(all_public_cards_combinations)), flush=True)
+    return
+
+
     for public_cards_combination in all_public_cards_combinations:
         count_list[cf.compare_two_hand(hand_cards[0], hand_cards[1], public_cards_combination)] += 1
 

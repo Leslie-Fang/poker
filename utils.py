@@ -59,23 +59,6 @@ def _is_flush(cards):
             return False
     return True
 
-def is_flush(hand_card, public_cards):
-    """
-    检查同花
-    return None if not flush
-    else return the largest flush card
-    """
-    full_cards_to_check = copy.deepcopy(list(public_cards))
-    full_cards_to_check.append(hand_card.card1)
-    full_cards_to_check.append(hand_card.card2)
-    # Sort of decrease number
-    full_cards_to_check.sort(key = lambda card:card.number, reverse=True)
-
-    if len(full_cards_to_check) < 5:
-        return False
-    all_combinations = itertools.combinations(full_cards_to_check, 5)
-    return any(_is_flush(cards) for cards in all_combinations)
-
 def _is_straight(cards):
     assert cards.__len__() == 5
     cards = copy.deepcopy(list(cards))
@@ -98,19 +81,6 @@ def _is_straight(cards):
     if (cards[3].number - cards[4].number != 1):
         return False
     return True
-
-def is_straight(hand_card, public_cards):
-    full_cards_to_check = copy.deepcopy(list(public_cards))
-    full_cards_to_check.append(hand_card.card1)
-    full_cards_to_check.append(hand_card.card2)
-    # Sort of decrease number
-    full_cards_to_check.sort(key = lambda card:card.number, reverse=True)
-
-    if len(full_cards_to_check) < 5:
-        return False
-    all_combinations = itertools.combinations(full_cards_to_check, 5)
-    return any(_is_straight(cards) for cards in all_combinations)
-
 
 def is_three_of_a_kind():
     pass
