@@ -12,6 +12,8 @@ from three_kind import is_three_kind, compare_three_kind
 from two_pairs import is_two_pairs, compare_two_pairs
 from one_pair import is_one_pair, compare_one_pair
 from high_cards import compare_high_cards
+from compare_functions import compare_hands
+from cards import Card, CardColor
 
 class TestStraightFlush:
     def test_straight_flush_internal(self):
@@ -460,6 +462,26 @@ class TestHighCards:
         public_card5 = cards.Card(9, cards.CardColor.heart)
         public_cards = [public_card1, public_card2, public_card3, public_card4, public_card5]
         assert compare_high_cards(hand_card, public_cards) is 2
+
+class TestSerialParallel():
+    def test_serial_parallel(self):
+        hand_card1 = cards.HandCard(cards.Card(6, cards.CardColor.diamond), cards.Card(2, cards.CardColor.club))
+        hand_card2 = cards.HandCard(cards.Card(7, cards.CardColor.heart), cards.Card(7, cards.CardColor.spade))
+        hand_card = [hand_card1, hand_card2]
+
+        public_cards = []
+
+        toy_cards = []
+        for number in range(2, 8):
+            for color in [CardColor.heart, CardColor.spade, CardColor.club, CardColor.diamond]:
+                print("number is: {}; color is: {}".format(number, color))
+                toy_cards.append(Card(number, color))
+
+        serial_count_list = compare_hands(hand_card, public_cards, all_cards=toy_cards, use_parallel=False)
+        parallel_count_list = compare_hands(hand_card, public_cards, all_cards=toy_cards, use_parallel=True)
+        assert serial_count_list[0] == parallel_count_list[0]
+        assert serial_count_list[1] == parallel_count_list[1]
+        assert serial_count_list[2] == parallel_count_list[2]
 
 if __name__ == "__main__":
     pytest.main()

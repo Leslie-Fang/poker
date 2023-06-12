@@ -18,8 +18,6 @@ class HandCard:
         self.card1 = card1
         self.card2 = card2
 
-
-
 def get_all_cards():
     all_cards = []
     for number in range(2, 15):

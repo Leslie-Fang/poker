@@ -5,10 +5,10 @@
 python -m pytest test.py
 ```
 
-## Result
+## Results
+
 ### TT vs A2s
 #### Serial Calculation
-
 * TT win:
 * A2s win:
 * Equal:
@@ -18,12 +18,32 @@ python -m pytest test.py
 * A2s win: 31.75%
 * Equal: 0.38%
 
-### TT vs AKs
+### TT vs A2o (default use Parallel Calculation)
+* TT win:
+* A2o win:
+* Equal:
+
+### TT vs AKs (default use Parallel Calculation)
 * TT win:
 * AKs win:
 * Equal:
 
 ### TT vs AKo
 * TT win:
+* AKo win:
+* Equal:
+
+### TT vs AQo
+* TT win:
+* AQo win:
+* Equal:
+
+### 88 vs AQo
+* 88 win:
+* AKs win:
+* Equal:
+
+### AQo vs AKo
+* AQo win:
 * AKo win:
 * Equal:
