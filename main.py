@@ -26,17 +26,22 @@ def compare_hands(hand_cards, public_cards):
 
     # utils.print_all_cards(remain_cards)
     remain_cards_needed = 5 - len(public_cards)
-    all_public_cards_combinations = itertools.combinations(remain_cards, remain_cards_needed)
     count_list = [0, 0, 0] # number of equal, number of hand1 win, number of hand2 win
 
+    total_candidate = 0
+    all_public_cards_combinations = itertools.combinations(remain_cards, remain_cards_needed)
+    for _ in all_public_cards_combinations:
+        total_candidate += 1
 
-
-    print("len(all_public_cards_combinations) is: {}".fotmat(len(all_public_cards_combinations)), flush=True)
-    return
-
-
+    print("Total candidates is: {}".format(total_candidate), flush=True)
+    current_progress = 0
+    all_public_cards_combinations = itertools.combinations(remain_cards, remain_cards_needed)
     for public_cards_combination in all_public_cards_combinations:
         count_list[cf.compare_two_hand(hand_cards[0], hand_cards[1], public_cards_combination)] += 1
+
+        current_progress += 1
+        if current_progress % 10000 == 0:
+            print("progress count is: {}; percentage is: {}%".format(current_progress, current_progress/total_candidate*100), flush=True)
 
     total_count = count_list[0] + count_list[1] + count_list[2]
     print("total_count is: {}".format(total_count), flush=True)

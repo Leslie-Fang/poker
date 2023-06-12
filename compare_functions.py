@@ -5,6 +5,7 @@ from flush import compare_flush
 from straight import compare_straight
 from three_kind import compare_three_kind
 from two_pairs import compare_two_pairs
+from one_pair import compare_one_pair
 
 
 def compare_two_hand(hand_card1, hand_card2, public_cards):
@@ -61,5 +62,11 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     if res_two_pair is not None:
         return res_two_pair
     # all of 2 hands are not two pairs
+
+    # Step8: compare one pair
+    res_one_pair = compare_one_pair([hand_card1, hand_card2], public_cards)
+    if res_one_pair is not None:
+        return res_one_pair
+    # all of 2 hands are not one pair
 
     return 0
