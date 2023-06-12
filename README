@@ -14,9 +14,9 @@ python -m pytest test.py
 * Equal:
 
 #### Parallel Calculation
-* TT win:
-* A2s win:
-* Equal:
+* TT win: 67.87%
+* A2s win: 31.75%
+* Equal: 0.38%
 
 ### TT vs AKs
 * TT win:
