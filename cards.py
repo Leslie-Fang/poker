@@ -18,11 +18,14 @@ class HandCard:
         self.card1 = card1
         self.card2 = card2
 
-all_cards = []
 
-for number in range(2, 15):
-    for color in [CardColor.heart, CardColor.spade, CardColor.club, CardColor.diamond]:
-        print("number is: {}; color is: {}".format(number, color))
-        all_cards.append(Card(number, color))
+
+def get_all_cards():
+    all_cards = []
+    for number in range(2, 15):
+        for color in [CardColor.heart, CardColor.spade, CardColor.club, CardColor.diamond]:
+            print("number is: {}; color is: {}".format(number, color))
+            all_cards.append(Card(number, color))
+    return all_cards
 
 

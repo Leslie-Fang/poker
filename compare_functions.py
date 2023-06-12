@@ -7,6 +7,7 @@ from three_kind import compare_three_kind
 from two_pairs import compare_two_pairs
 from one_pair import compare_one_pair
 from high_cards import compare_high_cards
+import copy
 
 
 def compare_two_hand(hand_card1, hand_card2, public_cards):
@@ -21,6 +22,8 @@ def compare_two_hand(hand_card1, hand_card2, public_cards):
     * 1 is hand1 is larger
     * 2 is hand2 is larger
     """
+    hand_card1 = copy.deepcopy(hand_card1)
+    hand_card2 = copy.deepcopy(hand_card2)
 
     # Step1: Compare straight_flush firstly
     res_straight_flush = compare_straight_flush([hand_card1, hand_card2], public_cards)
