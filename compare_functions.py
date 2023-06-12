@@ -52,6 +52,8 @@ def compare_hands(hand_cards, public_cards, all_cards=cards.get_all_cards(), use
         future_results = []
 
         for public_cards_combination in all_public_cards_combinations:
+            public_cards_combination = list(public_cards_combination)
+            public_cards_combination.extend(public_cards)
             future_results.append(pool.apply_async(_compare_f, (hand_cards[0], hand_cards[1], public_cards_combination)))
         pool.close()
         print("finish submission of all tasks", flush=True)
@@ -63,6 +65,8 @@ def compare_hands(hand_cards, public_cards, all_cards=cards.get_all_cards(), use
     else:
         current_progress = 0
         for public_cards_combination in all_public_cards_combinations:
+            public_cards_combination = list(public_cards_combination)
+            public_cards_combination.extend(public_cards)
             count_list[compare_two_hand(hand_cards[0], hand_cards[1], public_cards_combination)] += 1
 
             current_progress += 1
